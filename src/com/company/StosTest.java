@@ -1,7 +1,6 @@
 package com.company;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 
 /**
  *
@@ -26,56 +25,101 @@ public class StosTest {
 //    private <T> void stosAssert(T expected, T actual){
 //        assert actual.equals(expected): String.format("dla %s nie zwraca %s",nr, expected);
 //    }
-    void zerknijNaPuste(){
+private void zerknijNaPuste(){
         Stos stos = new Stos<Integer>();
         assert stos.zerknij()==null: "Stos nie zwraca pustego gdy jest pusty";
     }
 
-    void polozPotemZerknij(){
+    private void polozPotemZerknij(){
         Stos stos = new Stos<Integer>();
-        stos.poloz(new Integer(3));
+        stos.poloz(3);
         assert stos.zerknij().equals(3): "Stos nie zwraca obiektu";
         stos.poloz(5);
         assert stos.zerknij().equals(5): "Stos nie zmienia sie przy poloz";
     }
 
-    void pobierzNaPustym(){
+    private void pobierzNaPustym(){
         Stos stos = new Stos<Integer>();
         try {
             stos.pobierz();
-            assert true==false: "Stos nie rzucil wyjatku";
-        } catch (Exception e) {
+            assert false: "Stos nie rzucil wyjatku";
+        } catch (Exception ignored) {
         }
     }
 
-    void kladziePOtemPobiera(){
+    private void kladziePOtemPobiera(){
         Stos<Integer> stos = new Stos<>();
         stos.poloz(5);
         stos.poloz(16);
-        assert stos.pobierz().equals(16): "Wierzchni element zly";
-        assert stos.pobierz().equals(5): "Glebszy element zly";
         try {
+            //noinspection AssertWithSideEffects
+            assert stos.pobierz().equals(16): "Wierzchni element zly";
+            //noinspection AssertWithSideEffects
+            assert stos.pobierz().equals(5): "Glebszy element zly";
             stos.pobierz();
-            assert true==false: "Blad oprozniania stosu";
-        } catch (Exception e) {
+            assert false: "Blad oprozniania stosu";
+        } catch (Exception ignored) {
         }
     }
 
-    void czyZerkanieNieZmieniaStanu(){
+    private void czyZerkanieNieZmieniaStanu(){
         Stos<Integer> stos = new Stos<>();
         stos.poloz(5);
         stos.poloz(16);
         assert stos.zerknij().equals(stos.zerknij()): "Zerkanie modyfikuje stos";
-        assert !stos.pobierz().equals(stos.zerknij()): "Pobieranie nie zmienilo stosu";
-        assert !stos.pobierz().equals(stos.zerknij()): "Pobieranie nie zmienilo stosu";
+        try {
+            //noinspection AssertWithSideEffects
+            assert !stos.pobierz().equals(stos.zerknij()): "Pobieranie nie zmienilo stosu";
+            //noinspection AssertWithSideEffects
+            assert !stos.pobierz().equals(stos.zerknij()): "Pobieranie nie zmienilo stosu";
+        } catch (PustyStosException e) {
+            e.printStackTrace();
+        }
     }
 
-    public static void main(String[] args){
+    private void stosStringow() throws PustyStosException {
+        String[] data = new String[]{"Dane", "Wiecej danych", "Jeszcze troche", "Starczy"};
+        testStosuGenerykow(data);
+    }
+
+    private void stosFloatow() throws PustyStosException {
+        Float[] data = new Float[]{1.23f, 2.34f, 4.56f, 4.56f};
+        testStosuGenerykow(data);
+    }
+
+    private void stosCharow() throws PustyStosException {
+        Character[] data = new Character[]{'a', 'b', 'c', 'd', 'e'};
+        testStosuGenerykow(data);
+    }
+
+    private <T> void testStosuGenerykow(T[] data) throws PustyStosException {
+        Stos<T> stos = new Stos<>();
+        for (T t : data){
+            stos.poloz(t);
+            assert stos.zerknij().equals(t): "Blad kladzenia stringa";
+        }
+        Collections.reverse(Arrays.asList(data));
+        for (T t_reverse : data){
+            assert stos.zerknij().equals(t_reverse): "Blad zerkania";
+            //noinspection AssertWithSideEffects
+            assert stos.pobierz().equals(t_reverse): "Blad pobierania";
+        }
+        try {
+            stos.pobierz();
+            assert false : "Blad oprozniania";
+        } catch (PustyStosException ignored) {
+        }
+    }
+
+    public static void main(String[] args) throws PustyStosException {
         StosTest stosTest = new StosTest();
         stosTest.zerknijNaPuste();
         stosTest.polozPotemZerknij();
         stosTest.pobierzNaPustym();
         stosTest.kladziePOtemPobiera();
         stosTest.czyZerkanieNieZmieniaStanu();
+        stosTest.stosStringow();
+        stosTest.stosFloatow();
+        stosTest.stosCharow();
     }
 }

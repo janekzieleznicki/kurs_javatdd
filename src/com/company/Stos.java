@@ -1,26 +1,30 @@
 package com.company;
 
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Arrays;
 
-public class Stos <T> {
-    List<T> obiekty = new ArrayList<>();
+class Stos <T> {
+    private T[] obiekty = (T[]) new Object[0];
+    private int size = 0;
 
-    public T zerknij() {
-        if(obiekty.size()>0)
-            return obiekty.get(obiekty.size()-1);
+    T zerknij() {
+        if(size > 0)
+            return obiekty[size-1];
         return null;
     }
 
-    public void poloz(T t) {
-        obiekty.add(t);
+    void poloz(T t) {
+        obiekty= Arrays.copyOf(obiekty,++size);
+        obiekty[size-1]=t;
     }
 
-    public T pobierz() {
+    T pobierz() throws PustyStosException{
         if(zerknij()==null)
-            throw new IndexOutOfBoundsException("Proba dostepu do pustego stosu");
-        else
-            return obiekty.remove(obiekty.size()-1);
+            throw new PustyStosException("Proba dostepu do pustego stosu");
+        else{
+            T out = obiekty[size-1];
+            obiekty = Arrays.copyOf(obiekty,--size);
+            return out;
+        }
     }
 }
