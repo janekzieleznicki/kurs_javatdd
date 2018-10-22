@@ -1,12 +1,21 @@
 package com.company;
 
 
+import java.lang.reflect.Array;
 import java.util.Arrays;
 
 class Stos <T> {
-    private T[] obiekty = (T[]) new Object[0];
+    private T[] obiekty;
     private int size = 0;
 
+    Stos(Class<T> type) {
+        @SuppressWarnings("unchecked")
+        final T[] a = (T[]) Array.newInstance(type, 0);
+        this.obiekty = a;
+    }
+    Stos(){
+        obiekty = (T[]) new Object[0];
+    }
     T zerknij() {
         if(size > 0)
             return obiekty[size-1];

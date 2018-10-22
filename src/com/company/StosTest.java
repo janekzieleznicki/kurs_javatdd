@@ -26,24 +26,25 @@ public class StosTest {
 //        assert actual.equals(expected): String.format("dla %s nie zwraca %s",nr, expected);
 //    }
 private void zerknijNaPuste(){
-        Stos stos = new Stos<Integer>();
+        Stos stos = new Stos<>(Integer.class);
         assert stos.zerknij()==null: "Stos nie zwraca pustego gdy jest pusty";
     }
 
     private void polozPotemZerknij(){
-        Stos stos = new Stos<Integer>();
+        Stos stos = new Stos<>(Integer.class);
         stos.poloz(3);
         assert stos.zerknij().equals(3): "Stos nie zwraca obiektu";
         stos.poloz(5);
         assert stos.zerknij().equals(5): "Stos nie zmienia sie przy poloz";
     }
 
-    private void pobierzNaPustym(){
+    private void testWyjatku(){
         Stos stos = new Stos<Integer>();
         try {
             stos.pobierz();
             assert false: "Stos nie rzucil wyjatku";
-        } catch (Exception ignored) {
+        } catch (PustyStosException exception) {
+            assert exception.getLocalizedMessage().equals("Proba dostepu do pustego stosu"): "Blad komuniatu exception";
         }
     }
 
@@ -72,9 +73,7 @@ private void zerknijNaPuste(){
             assert !stos.pobierz().equals(stos.zerknij()): "Pobieranie nie zmienilo stosu";
             //noinspection AssertWithSideEffects
             assert !stos.pobierz().equals(stos.zerknij()): "Pobieranie nie zmienilo stosu";
-        } catch (PustyStosException e) {
-            e.printStackTrace();
-        }
+        } catch (PustyStosException ignored) { }
     }
 
     private void stosStringow() throws PustyStosException {
@@ -115,7 +114,7 @@ private void zerknijNaPuste(){
         StosTest stosTest = new StosTest();
         stosTest.zerknijNaPuste();
         stosTest.polozPotemZerknij();
-        stosTest.pobierzNaPustym();
+        stosTest.testWyjatku();
         stosTest.kladziePOtemPobiera();
         stosTest.czyZerkanieNieZmieniaStanu();
         stosTest.stosStringow();
