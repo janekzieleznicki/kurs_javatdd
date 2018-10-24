@@ -6,6 +6,47 @@
 2. Krotkie metody - takie zeby zaslonic reka, JIT skompiluje krotka do kodu natywnego
 3. Sciezki przejscia przez metody
 
+### 
+Szablony testow - aaa / gwt
+
+### Maven
+cykle zycia - clean / build / sight | fazy
+najpierw kompilacja -> testowanie -> weryfikacja -> instalacja
+
+mvn test -> wszystkie fazy do wlacznie test -> wywolanie wszystkich testow
+
+### Podsumowniae 
+Kent Beck
+Tomasz Kaczanowski
+Micheal Feathers
+Laurent Bossavit - testy charakteryzacyjne
+Nat Pryce, Stave Freeman
+misko hevery
+
+observator / visitor / bus - wzorce do obczajenia zeby wypierdolic managera
+
+fairy - wrozka do locsowania danych
+
+### Mocki
+1. wydmuszka - nie wolajcie nie tykajcie bo sie zlamie
+	wzorzec NullObject
+
+2. zaslepka - jak cos trzeba zawolac
+	return cokolwiek
+
+3. kadlubel / szkielecik - minimum metod zeby sie nie wyjebalo
+	kadlub z klasy
+
+4. flaszywka - prosty generator dokumentow
+   wytaczana z reki
+
+5. podrobka wlasciwa - ma jakas (prosta) implemntacje
+6. szpieg - owijka na obiekt
+	bierze prawdziwy obiekt
+
+## wygenereowane equals() tostring() hashcode() tez nalezy sprawdzic
+
+
 ### TestNG
 1. Grupy testow
 2. wielowatkowosc - 
