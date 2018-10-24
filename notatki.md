@@ -27,6 +27,11 @@ observator / visitor / bus - wzorce do obczajenia zeby wypierdolic managera
 
 fairy - wrozka do locsowania danych
 
+Materialy:
+http://www.lafk.pl/TDD/TDD.html
+
+
+
 ### Mocki
 1. wydmuszka - nie wolajcie nie tykajcie bo sie zlamie
 	wzorzec NullObject
